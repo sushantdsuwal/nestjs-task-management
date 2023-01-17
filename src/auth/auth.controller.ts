@@ -7,7 +7,12 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  createTask(@Body() authCredentialsDto: AuthCredentialsDto) {
+  signUp(@Body() authCredentialsDto: AuthCredentialsDto) {
     return this.authService.signUp(authCredentialsDto);
+  }
+
+  @Post('/signin')
+  signIn(@Body() authCredentialsDto: AuthCredentialsDto) {
+    return this.authService.signIn(authCredentialsDto);
   }
 }

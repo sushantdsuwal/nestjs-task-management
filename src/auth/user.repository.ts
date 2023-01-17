@@ -1,6 +1,6 @@
 import {
   ConflictException,
-  Injectable,
+  // Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,10 +8,20 @@ import { Repository } from 'typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
-@Injectable()
-export class UserRepository {
-  @InjectRepository(User)
-  private userRepository: Repository<User>;
+// @Injectable()
+export class UserRepository extends Repository<User> {
+  // @InjectRepository(User)
+  // private userRepository: Repository<User>;
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {
+    super(
+      userRepository.target,
+      userRepository.manager,
+      userRepository.queryRunner,
+    );
+  }
 
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = authCredentialsDto;
